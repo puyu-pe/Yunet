@@ -9,8 +9,8 @@ module.exports = {
       config: {
         authors: "PUYU SRL",
         iconUrl: "https://puyu.pe/favicon.ico",
-        exe: "puyium.exe",
-        name: "puyium",
+        exe: "YuNet.exe",
+        name: "YuNet",
       },
     },
     {
@@ -28,7 +28,7 @@ module.exports = {
       name: "@electron-forge/maker-deb",
       config: {
         options: {
-          bin: "WebWrapper",
+          bin: "YuNet",
           maintainer: "PUYU",
           homepage: "https://puyu.pe",
           icon: "assets/icon.png",

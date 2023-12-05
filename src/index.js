@@ -8,24 +8,22 @@ if (require("electron-squirrel-startup")) {
 
 const settings = require("electron-settings");
 settings.configure({
-	fileName: "puyium-config.json",
-	prettify: true,
+  fileName: "yunet-config.json",
+  prettify: true,
 })
 
-
-
-app.whenReady().then( async () => {
-	try{
-		const isSettingUrl = await settings.has("system.url");
-		if(isSettingUrl){
-			const url = await settings.get("system.url");
-			createWebWindow(url);
-		}else{
-			createSettingsWindow();
-		}
-	}catch(error){
-		console.log(error);
-	}
+app.whenReady().then(async () => {
+  try {
+    const isSettingUrl = await settings.has("system.url");
+    if (isSettingUrl) {
+      const url = await settings.get("system.url");
+      createWebWindow(url);
+    } else {
+      createSettingsWindow();
+    }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 
@@ -38,10 +36,14 @@ app.on("window-all-closed", () => {
   }
 });
 
-app.on("activate", () => {
+app.on("activate", async () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    const isSettingUrl = await settings.has("system.url");
+    if (isSettingUrl) {
+      const url = await settings.get("system.url");
+      createWebWindow(url);
+    }
   }
 });

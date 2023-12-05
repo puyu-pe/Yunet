@@ -1,6 +1,6 @@
 {
-  "name": "puyium",
-  "productName": "puyium",
+  "name": "YuNet",
+  "productName": "YuNet",
   "version": "1.0.0",
   "description": "Envoltorio sencillo para aplicaciones web.",
   "main": "src/index.js",
