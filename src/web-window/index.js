@@ -1,5 +1,6 @@
 const { BrowserWindow, Menu } = require("electron");
 
+let isMenuVisible = false;
 function createWebWindow(url) {
   const { screen } = require("electron");
   const primaryDisplay = screen.getPrimaryDisplay();
@@ -8,11 +9,13 @@ function createWebWindow(url) {
   const mainWindow = new BrowserWindow({
     width,
     height,
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
     },
   });
+  isMenuVisible = !mainWindow.isMenuBarAutoHide;
   mainWindow.loadURL(url);
   mainWindow.setFullScreenable(true);
   mainWindow.setMaximizable(true);
@@ -20,8 +23,8 @@ function createWebWindow(url) {
 }
 
 const setMainMenu = (mainWindow) => {
-	const { app } = require("electron");
-	const isMac = process.platform === "darwin";
+  const { app } = require("electron");
+  const isMac = process.platform === "darwin";
   const template = [
     {
       label: app.name,
@@ -29,9 +32,9 @@ const setMainMenu = (mainWindow) => {
         {
           label: "Configuración",
           click() {
-						const { createSettingsWindow } = require("../setting-window");
+            const { createSettingsWindow } = require("../setting-window");
             createSettingsWindow();
-						mainWindow.close();
+            mainWindow.close();
           },
         },
 
@@ -56,6 +59,14 @@ const setMainMenu = (mainWindow) => {
         { type: "separator" },
         { label: "Alternar Pantalla Completa", role: "toggleFullScreen" },
       ],
+    },
+    {
+      label: 'Mostrar Menú',
+      accelerator: 'Alt+M',
+      click: () => {
+        isMenuVisible = !isMenuVisible;
+        mainWindow.setMenuBarVisibility(isMenuVisible)
+      }
     },
   ];
   const menu = Menu.buildFromTemplate(template);
