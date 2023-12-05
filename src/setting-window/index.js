@@ -29,7 +29,7 @@ function createSettingsWindow() {
     win.close();
   })
 
-  ipcMain.once('open-context-menu', (event) => {
+  ipcMain.on('open-context-menu', (event) => {
     const menu = new Menu()
     menu.append(new MenuItem({ label: 'Copiar', role: 'copy' }))
     menu.append(new MenuItem({ label: 'Pegar', role: 'paste' }))
