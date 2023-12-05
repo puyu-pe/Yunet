@@ -7,11 +7,16 @@ const validateUrl = (url) => {
   return urlRegex.test(url);
 };
 
-urlInput.addEventListener('keypress', function (e) {
+urlInput.addEventListener('keypress', function(e) {
   if (e.key === 'Enter') {
     btnLoad.click()
   }
 })
+
+window.addEventListener('contextmenu', (e) => {
+  e.preventDefault()
+  window.configAPI.openContextMenu()
+}, false)
 
 btnLoad.addEventListener("click", () => {
   try {
@@ -24,5 +29,5 @@ btnLoad.addEventListener("click", () => {
     }
   } catch (error) {
     errorMessage.innerText = `Se produjo un error: ${error}`;
-	}
+  }
 });
