@@ -7,6 +7,12 @@ const validateUrl = (url) => {
   return urlRegex.test(url);
 };
 
+urlInput.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    btnLoad.click()
+  }
+})
+
 btnLoad.addEventListener("click", () => {
   try {
     const url = urlInput.value;
