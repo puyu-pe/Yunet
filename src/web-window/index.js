@@ -1,4 +1,5 @@
 const { BrowserWindow, Menu } = require("electron");
+const { createSettingsWindow } = require("../setting-window");
 
 let isMenuVisible = false;
 function createWebWindow(url) {
@@ -16,10 +17,17 @@ function createWebWindow(url) {
     },
   });
   isMenuVisible = !mainWindow.isMenuBarAutoHide;
-  mainWindow.loadURL(url);
-  mainWindow.setFullScreenable(true);
-  mainWindow.setMaximizable(true);
   setMainMenu(mainWindow);
+  mainWindow
+    .loadURL(url)
+    .then(() => {
+      mainWindow.setFullScreenable(true);
+      mainWindow.setMaximizable(true);
+    })
+    .catch(() => {
+			mainWindow.close();
+			createSettingsWindow();
+		});
 }
 
 const setMainMenu = (mainWindow) => {
@@ -32,7 +40,6 @@ const setMainMenu = (mainWindow) => {
         {
           label: "Configuración",
           click() {
-            const { createSettingsWindow } = require("../setting-window");
             createSettingsWindow();
             mainWindow.close();
           },
