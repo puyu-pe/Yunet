@@ -12,6 +12,7 @@ settings.configure({
   prettify: true,
 })
 
+
 app.whenReady().then(async () => {
   try {
     const isSettingUrl = await settings.has("system.url");

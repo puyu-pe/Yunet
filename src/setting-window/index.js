@@ -21,6 +21,8 @@ function createSettingsWindow() {
     settings.set("system.url", url);
   });
 
+
+
   ipcMain.once("open-web-view", (event, url) => {
     const webContents = event.sender
     const win = BrowserWindow.fromWebContents(webContents)
@@ -39,6 +41,15 @@ function createSettingsWindow() {
   mainWindow.loadFile(path.join("src", "setting-window", "index.html"));
   setMainMenu();
 }
+
+ipcMain.handle('get-url', async (e) => {
+  const settings = require("electron-settings");
+  const result = await settings.get("system.url");
+  if (result != null) {
+    return result
+  }
+  return "";
+})
 
 const setMainMenu = () => {
   const isMac = process.platform === "darwin";
