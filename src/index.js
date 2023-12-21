@@ -12,6 +12,7 @@ settings.configure({
   prettify: true,
 })
 
+app.commandLine.appendSwitch('ignore-certificate-errors')
 
 app.whenReady().then(async () => {
   try {
