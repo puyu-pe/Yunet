@@ -14,7 +14,6 @@ function createWebWindow(url) {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      webSecurity: false,
       allowRunningInsecureContent: true,
     },
   });
