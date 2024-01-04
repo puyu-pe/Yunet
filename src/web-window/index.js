@@ -1,5 +1,6 @@
 const { BrowserWindow, Menu } = require("electron");
 const { createSettingsWindow } = require("../setting-window");
+const { shell } = require('electron');
 
 let isMenuVisible = false;
 function createWebWindow(url) {
@@ -26,9 +27,15 @@ function createWebWindow(url) {
       mainWindow.setMaximizable(true);
     })
     .catch(() => {
-			mainWindow.close();
-			createSettingsWindow();
-		});
+      mainWindow.close();
+      createSettingsWindow();
+    });
+
+  mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+    shell.openExternal(url); // Abre URL en el navegador del usuario.
+    return { action: 'deny' };
+  });
+
 }
 
 const setMainMenu = (mainWindow) => {
