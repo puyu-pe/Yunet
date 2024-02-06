@@ -1,7 +1,7 @@
 {
   "name": "YuNet",
   "productName": "YuNet",
-  "version": "2.2.9",
+  "version": "2.2.10",
   "description": "Envoltorio sencillo para aplicaciones web.",
   "main": "src/index.js",
   "scripts": {
