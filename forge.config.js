@@ -9,20 +9,19 @@ module.exports = {
       config: {
         authors: "PUYU SRL",
         iconUrl: "https://puyu.pe/favicon.ico",
-        exe: "YuNet.exe",
-        name: "YuNet",
+        exe: "Yunet.exe",
+        name: "Yunet",
       },
     },
     {
-      // Para macOS
+      name: '@electron-forge/maker-zip',
+      platforms: ['linux'],
+    },
+    {
       name: "@electron-forge/maker-dmg",
       config: {
         icon: "assets/icon.icns",
       },
-    },
-    {
-      name: "@electron-forge/maker-zip",
-      platforms: ["darwin"],
     },
     {
       name: "@electron-forge/maker-deb",
@@ -39,8 +38,8 @@ module.exports = {
       name: "@electron-forge/maker-rpm",
       config: {
         options: {
-					icon: 'assets/icon.png'
-				},
+          icon: 'assets/icon.png'
+        },
       },
     },
   ],
