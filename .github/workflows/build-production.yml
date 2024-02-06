@@ -4,9 +4,12 @@ on:
   workflow_dispatch:
 
 jobs:
+  release:
+    runs-on: ${{ matrix.os }}
 
-  publish_on_linux:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v4
       with:
@@ -21,35 +24,4 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: npm run publish
 
-  publish_on_mac:
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-node@master
-      with:
-        node-version: 18
-    - name: install dependencies
-      run: npm ci
-    - name: publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: npm run publish
-
-  publish_on_win:
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v4       
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-node@master
-      with:
-        node-version: 18
-    - name: install dependencies
-      run: npm ci
-    - name: publish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: npm run publish
-
+  

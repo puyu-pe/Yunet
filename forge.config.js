@@ -51,7 +51,7 @@ module.exports = {
           owner: "puyu-pe",
           name: "Yunet"
         },
-        draf: true
+        draft: true
       }
     }
   ],
