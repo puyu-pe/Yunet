@@ -45,12 +45,13 @@ module.exports = {
   ],
   publishers: [
     {
-      "name": "@electron-forge/publisher-github",
-      "config": {
-        "repository": {
-          "owner": "puyu-pe",
-          "name": "Yunet"
-        }
+      name: "@electron-forge/publisher-github",
+      config: {
+        repository: {
+          owner: "puyu-pe",
+          name: "Yunet"
+        },
+        draft: true
       }
     }
   ],
