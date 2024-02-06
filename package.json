@@ -11,21 +11,6 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "config": {
-    "forge": {
-      "publishers": [
-        {
-          "name": "@electron-forge/publisher-github",
-          "config": {
-            "repository": {
-              "owner": "puyu-pe",
-              "name": "Yunet"
-            }
-          }
-        }
-      ]
-    }
-  },
   "keywords": [],
   "author": {
     "name": "OscarDevCPP",
