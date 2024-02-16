@@ -28,7 +28,8 @@ function createWebWindow(url) {
     })
     .catch(() => {
       mainWindow.close();
-      createSettingsWindow();
+      //TODO: Abrir aqui la venta principal de yunet
+      //O mostrar una ventana de error con la opcion de reintentar o regresar a home
     });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {

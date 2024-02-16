@@ -21,8 +21,6 @@ function createSettingsWindow() {
     settings.set("system.url", url);
   });
 
-
-
   ipcMain.once("open-web-view", (event, url) => {
     const webContents = event.sender
     const win = BrowserWindow.fromWebContents(webContents)
@@ -31,6 +29,15 @@ function createSettingsWindow() {
     win.close();
   })
 
+  ipcMain.handleOnce('get-url', async () => {
+    const settings = require("electron-settings");
+    const result = await settings.get("system.url");
+    if (result != null) {
+      return result
+    }
+    return "";
+  });
+
   ipcMain.on('open-context-menu', (event) => {
     const menu = new Menu()
     menu.append(new MenuItem({ label: 'Copiar', role: 'copy' }))
@@ -38,18 +45,14 @@ function createSettingsWindow() {
     menu.popup(BrowserWindow.fromWebContents(event.sender));
   })
 
-  mainWindow.loadFile(path.join("src", "setting-window", "index.html"));
+  mainWindow
+    .loadFile(path.join("src", "setting-window", "index.html"))
+    .then(() => {
+      mainWindow.setFullScreenable(true);
+      mainWindow.setMaximizable(true);
+    })
   setMainMenu();
 }
-
-ipcMain.handle('get-url', async (e) => {
-  const settings = require("electron-settings");
-  const result = await settings.get("system.url");
-  if (result != null) {
-    return result
-  }
-  return "";
-})
 
 const setMainMenu = () => {
   const isMac = process.platform === "darwin";
