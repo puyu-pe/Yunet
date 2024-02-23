@@ -3,25 +3,19 @@ const path = require("path");
 const { Menu } = require("electron");
 
 function createSettingsWindow() {
+  const { screen } = require("electron");
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.workAreaSize;
+
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
     },
   });
-
-  ipcMain.once("save-url", (_, url) => {
-    const settings = require("electron-settings");
-    if (typeof url !== "string") return;
-    url = url.trim();
-    if (url.length === 0) return;
-    settings.set("system.url", url);
-  });
-
-
 
   ipcMain.once("open-web-view", (event, url) => {
     const webContents = event.sender
@@ -38,18 +32,14 @@ function createSettingsWindow() {
     menu.popup(BrowserWindow.fromWebContents(event.sender));
   })
 
-  mainWindow.loadFile(path.join("src", "setting-window", "index.html"));
+  mainWindow
+    .loadFile(path.join("src", "setting-window", "index.html"))
+    .then(() => {
+      mainWindow.setFullScreenable(true);
+      mainWindow.setMaximizable(true);
+    })
   setMainMenu();
 }
-
-ipcMain.handle('get-url', async (e) => {
-  const settings = require("electron-settings");
-  const result = await settings.get("system.url");
-  if (result != null) {
-    return result
-  }
-  return "";
-})
 
 const setMainMenu = () => {
   const isMac = process.platform === "darwin";
@@ -66,8 +56,6 @@ const setMainMenu = () => {
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
 };
-
-
 
 module.exports = {
   createSettingsWindow,
