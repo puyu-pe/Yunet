@@ -3,9 +3,13 @@ const { Menu } = require("electron");
 const path = require("path");
 
 function createErrorWindow(urlPage) {
+  const { screen } = require("electron");
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.workAreaSize;
+
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,

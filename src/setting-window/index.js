@@ -3,22 +3,18 @@ const path = require("path");
 const { Menu } = require("electron");
 
 function createSettingsWindow() {
+  const { screen } = require("electron");
+  const primaryDisplay = screen.getPrimaryDisplay();
+  const { width, height } = primaryDisplay.workAreaSize;
+
   const mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width,
+    height,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
       preload: path.join(__dirname, "preload.js"),
     },
-  });
-
-  ipcMain.once("save-url", (_, url) => {
-    const settings = require("electron-settings");
-    if (typeof url !== "string") return;
-    url = url.trim();
-    if (url.length === 0) return;
-    settings.set("system.url", url);
   });
 
   ipcMain.once("open-web-view", (event, url) => {
@@ -28,15 +24,6 @@ function createSettingsWindow() {
     createWebWindow(url);
     win.close();
   })
-
-  ipcMain.handleOnce('get-url', async () => {
-    const settings = require("electron-settings");
-    const result = await settings.get("system.url");
-    if (result != null) {
-      return result
-    }
-    return "";
-  });
 
   ipcMain.on('open-context-menu', (event) => {
     const menu = new Menu()

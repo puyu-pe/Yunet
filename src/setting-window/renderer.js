@@ -8,19 +8,6 @@ urlInput.addEventListener('keypress', function(e) {
   }
 })
 
-window.addEventListener('load', () => {
-  window.configAPI
-    .gerUrl()
-    .then((url) => {
-      if (url) {
-        urlInput.value = url;
-      }
-    })
-    .catch((error) => {
-      errorMessage.innerText = `Se produjo un error: ${error}`;
-    });
-})
-
 window.addEventListener('contextmenu', (e) => {
   e.preventDefault()
   window.configAPI.openContextMenu()
@@ -29,7 +16,6 @@ window.addEventListener('contextmenu', (e) => {
 btnLoad.addEventListener("click", () => {
   try {
     const url = urlInput.value;
-    window.configAPI.saveUrl(url);
     window.configAPI.openWebView(url);
   } catch (error) {
     errorMessage.innerText = `Se produjo un error: ${error}`;
