@@ -70,8 +70,6 @@ const setMainMenu = () => {
   Menu.setApplicationMenu(menu);
 };
 
-
-
 module.exports = {
   createSettingsWindow,
 };

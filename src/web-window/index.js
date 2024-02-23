@@ -1,6 +1,7 @@
 const { BrowserWindow, Menu } = require("electron");
 const { createSettingsWindow } = require("../setting-window");
 const { shell } = require('electron');
+const { createErrorWindow } = require("../error-window");
 
 let isMenuVisible = false;
 function createWebWindow(url) {
@@ -27,16 +28,14 @@ function createWebWindow(url) {
       mainWindow.setMaximizable(true);
     })
     .catch(() => {
+      createErrorWindow(url);
       mainWindow.close();
-      //TODO: Abrir aqui la venta principal de yunet
-      //O mostrar una ventana de error con la opcion de reintentar o regresar a home
     });
 
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url); // Abre URL en el navegador del usuario.
     return { action: 'deny' };
   });
-
 }
 
 const setMainMenu = (mainWindow) => {
