@@ -17,6 +17,14 @@ function createSettingsWindow() {
     },
   });
 
+  ipcMain.once("save-url", (_, url) => {
+    const settings = require("electron-settings");
+    if (typeof url !== "string") return;
+    url = url.trim();
+    if (url.length === 0) return;
+    settings.set("system.url", url);
+  });
+
   ipcMain.once("open-web-view", (event, url) => {
     const webContents = event.sender
     const win = BrowserWindow.fromWebContents(webContents)
@@ -40,6 +48,15 @@ function createSettingsWindow() {
     })
   setMainMenu();
 }
+
+ipcMain.handle('get-url', async (e) => {
+  const settings = require("electron-settings");
+  const result = await settings.get("system.url");
+  if (result != null) {
+    return result
+  }
+  return "";
+})
 
 const setMainMenu = () => {
   const isMac = process.platform === "darwin";
