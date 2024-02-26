@@ -1,7 +1,7 @@
 {
   "name": "YuNet",
   "productName": "YuNet",
-  "version": "2.2.11",
+  "version": "2.2.12",
   "description": "Envoltorio sencillo para aplicaciones web.",
   "main": "src/index.js",
   "scripts": {
@@ -18,7 +18,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-settings": "^4.0.2"
   },
   "devDependencies": {
     "@electron-forge/cli": "^7.2.0",
