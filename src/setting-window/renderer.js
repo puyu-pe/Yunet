@@ -17,6 +17,8 @@ btnLoad.addEventListener("click", () => {
   try {
     const url = urlInput.value;
     window.configAPI.openWebView(url);
+    window.configAPI.saveUrl(url);
+    window.configAPI.openWebView(url);
   } catch (error) {
     errorMessage.innerText = `Se produjo un error: ${error}`;
   }

@@ -2,12 +2,21 @@ const { app, BrowserWindow } = require("electron");
 const { createWebWindow } = require("./web-window");
 const { createSettingsWindow } = require("./setting-window");
 
+// determinar si estamos en entorno de desarrollo
 var isDev = process.env.APP_DEV ? (process.env.APP_DEV.trim() == "true") : false;
-// read args
+
+// obtener el argv URL_ARG de los parametros por linea de comando
 let URL_ARG = process.argv[1];
 if (isDev) {
   URL_ARG = process.argv[2];
 }
+
+// Inicializar archivo de configuración yunet
+const settings = require("electron-settings");
+settings.configure({
+  fileName: "yunet-config.json",
+  prettify: true,
+})
 
 if (require("electron-squirrel-startup")) {
   app.quit();
@@ -16,9 +25,13 @@ if (require("electron-squirrel-startup")) {
 app.commandLine.appendSwitch('ignore-certificate-errors')
 
 app.whenReady().then(async () => {
+  const isSettingUrl = await settings.has("system.url");
   try {
-    if (typeof URL_ARG === "string" && URL_ARG.length > 0) {
+    if (typeof URL_ARG === "string" && URL_ARG.length > 7) {
       createWebWindow(URL_ARG);
+    } else if (isSettingUrl) {
+      const url = await settings.get("system.url");
+      createWebWindow(url);
     } else {
       createSettingsWindow();
     }

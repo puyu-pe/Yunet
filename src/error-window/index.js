@@ -1,6 +1,7 @@
-const { BrowserWindow, ipcMain } = require("electron");
+const { BrowserWindow, ipcMain, app } = require("electron");
 const { Menu } = require("electron");
 const path = require("path");
+const { createSettingsWindow } = require("../setting-window/index.js");
 
 function createErrorWindow(urlPage) {
   const { screen } = require("electron");
@@ -31,15 +32,23 @@ function createErrorWindow(urlPage) {
       mainWindow.setFullScreenable(true);
       mainWindow.setMaximizable(true);
     })
-  setMainMenu();
+  setMainMenu(mainWindow);
 }
 
-const setMainMenu = () => {
+const setMainMenu = (mainWindow) => {
   const isMac = process.platform === "darwin";
   const template = [
     {
-      label: "Menu",
+      label: app.name,
       submenu: [
+        {
+          label: "Configuración",
+          click() {
+            createSettingsWindow();
+            mainWindow.close();
+          },
+        },
+
         isMac
           ? { label: "Salir", role: "close" }
           : { label: "Salir", role: "quit" },
